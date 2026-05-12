@@ -47,6 +47,7 @@ public class HumanPlayer extends Player {
 
 		// 3. Muestra la mano actualizada (ahora tiene 8 cartas)
 		ci.displayHand(hand);
+		standardDiscard(discardPile);
 
 		ci.writeLine("¿Quieres cerrar la ronda? (s/n): ");
 		answer = ci.readBooleanUsingChar('s', 'n');
@@ -54,7 +55,7 @@ public class HumanPlayer extends Player {
 		if (answer) {
 			handleClosingSequence(discardPile);
 		} else {
-			standardDiscard(discardPile);
+			ci.writeLine("No se puede cerrar la ronda");
 		}
 
 	}

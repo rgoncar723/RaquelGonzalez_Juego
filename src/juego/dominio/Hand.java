@@ -172,6 +172,9 @@ public class Hand {
 	public int calculateUncombinedPointsFromGroups(List<List<Card>> chosenGroups) {
 		return CombinationUtils.calculateUncombinedPoints(cards, chosenGroups);
 	}
+	public int calculateUncombinedPoints() {
+		return CombinationUtils.calculateUncombinedPointsAll(cards);
+	}
 	public void reset() {
 		cards.clear();
 	}

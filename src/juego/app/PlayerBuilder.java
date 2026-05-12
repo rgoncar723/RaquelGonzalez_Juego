@@ -6,8 +6,21 @@ import java.util.List;
 import juego.dominio.AiPlayer;
 import juego.dominio.HumanPlayer;
 import juego.dominio.Player;
-
+/**
+ * Clase de utilidad encargada de la instanciación de los jugadores de la partida.
+ * *Permite configurar dinámicamente si un jugador será controlado por un usuario 
+ * humano o por la inteligencia artificial (IA), cumpliendo con los requisitos 
+ * del proyecto de soportar ambos tipos de participantes. 
+ * * @author rgoncar723
+ * @version 1.0
+ */
 public class PlayerBuilder {
+	/**
+     * Construye la lista completa de jugadores que participarán en la partida. 
+     * * @param count Número de jugadores a crear (entre 2 y 5 según reglas). 
+     * @param ui Instancia de ConsoleInput para la comunicación con el usuario. 
+     * @return Lista de objetos Player (HumanPlayer o AiPlayer). 
+     */
 	public static List<Player> buildPlayers(int count, ConsoleInput ui) {
         List<Player> players = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -15,6 +28,12 @@ public class PlayerBuilder {
         }
         return players;
     }
+	/**
+     * Solicita los datos de un jugador individual y devuelve la instancia correspondiente.
+     * @param index Índice correlativo del jugador para mostrar en consola.
+     * @param ci Instancia de ConsoleInput para la lectura de datos. 
+     * @return Una instancia de HumanPlayer o AiPlayer. 
+     */
 	public static Player askPlayerType(int index, ConsoleInput ci) {
 		String name;
 		int type;

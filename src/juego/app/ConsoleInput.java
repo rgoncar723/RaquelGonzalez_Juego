@@ -99,7 +99,6 @@ public class ConsoleInput {
 		char upperNegative = Character.toUpperCase(negativeValue);
 
 		do {
-			System.out.printf("Introduce '%c'para minúscula o '%c' para mayúscula: ", upperAffirmative, upperNegative);
 			input = Character.toUpperCase(readChar());
 
 			if (input == upperAffirmative) {
@@ -128,16 +127,16 @@ public class ConsoleInput {
 		writeLine("TU MANO:");
 		List<Card> cards = hand.getCards();
 
-		// Imprimimos los índices arriba
+		
 		for (int i = 1; i <= cards.size(); i++) {
-			write(String.format("(%d)", i));
+			write(String.format("(%d)\t", i));
 
 		}
 		writeLine("");
 
-		// Imprimimos las cartas abajo
+		
 		for (Card card : cards) {
-			write("[" + card.toString() + "] ");
+			write(String.format("[%s]\t", card.toString()));
 		}
 		writeLine("\n" + "-".repeat(40));
 	}

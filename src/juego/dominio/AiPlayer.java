@@ -15,30 +15,26 @@ public class AiPlayer extends Player {
     public void playTurn(Deck deck, DiscardPile discardPile) {
     	  Card toDiscard;
         // 1. Decidir de dónde robar
-    	  System.out.printf("\n TURNO DE IA: %s",name);
+    	  System.out.printf("\n TURNO DE: %s",name);
         Optional<Card> topCard = discardPile.peek();
         boolean drawFromDiscard = topCard.isPresent() && shouldDrawFromDiscard(topCard.get());
 
         if (drawFromDiscard) {
-            // Robar del descarte (la carta ya estaba en peek, ahora la sacamos)
+            // Roba del descarte (la carta ya estaba en peek, ahora la saca)
             discardPile.pop().ifPresent(hand::addCard);
         } else {
-            // Robar del mazo
+            // Roba del mazo
             hand.addCard(deck.drawCard(discardPile));
         }
 
-        // 2. Decidir qué carta descartar según la dificultad
+        // 2. Decide que carta descarta 
         toDiscard = discardOptimal();
 
-        // 3. Descartar la carta elegida
+        // 3. Descarta la carta elegida
         hand.removeCard(toDiscard);
         discardPile.push(toDiscard);
-        System.out.printf("EL JUGADOR %s ha descartado %s",name,toDiscard.toString());
+        System.out.printf("\nEL JUGADOR %s ha descartado [%s]\n",name,toDiscard.toString());
     }
-
-    // ----------------------------------------------------------------------
-    // Decisiones sobre robar
-    // ----------------------------------------------------------------------
 
     
     private boolean shouldDrawFromDiscard(Card card) {
@@ -74,7 +70,7 @@ public class AiPlayer extends Player {
     }
 
     /**
-     * MEDIUM: descarta la carta de mayor valor (puntos).
+     * descarta la carta de mayor valor (puntos).
      * En caso de empate, la primera encontrada.
      */
     private Card discardByPoints() {
@@ -90,7 +86,7 @@ public class AiPlayer extends Player {
     }
 
     /**
-     * HARD: evalúa qué carta es menos útil (no forma parte de ninguna melda
+     * evalúa qué carta es menos útil (no forma parte de ninguna melda
      * o tiene el valor más alto).
      */
     private Card discardOptimal() {
