@@ -178,4 +178,33 @@ public class Hand {
 	public void reset() {
 		cards.clear();
 	}
+	/**
+	 * Analiza las 8 cartas actuales y determina cuál es la mejor para descartar.
+	 * La "mejor" es aquella que, al ser eliminada, deja la menor cantidad de puntos
+	 * en cartas no combinadas.
+	 * * @return La carta que más conviene descartar.
+	 */
+	public Card getBestDiscard() {
+	    Card bestCard = null;
+	    int minPoints = Integer.MAX_VALUE;
+	    List<Card> remainingCards;
+	    int currentPoints;
+
+	    
+	    for (Card candidate : cards) {
+	      
+	        remainingCards = new ArrayList<>(this.cards);
+	        remainingCards.remove(candidate);
+
+	        // Calculamos cuántos puntos quedarían "sueltos" con esta opción
+	        currentPoints = CombinationUtils.calculateUncombinedPointsAll(remainingCards);
+
+	        // Si esta opción es mejor que la anterior, la guardamos
+	        if (currentPoints < minPoints) {
+	            minPoints = currentPoints;
+	            bestCard = candidate;
+	        }
+	    }
+	    return bestCard;
+	}
 }

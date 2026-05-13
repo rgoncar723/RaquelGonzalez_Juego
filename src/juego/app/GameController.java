@@ -5,7 +5,6 @@ import juego.dominio.Player;
 import juego.dominio.Round;
 public class GameController {
 	private List<Player> players;
-	private List<Player> eliminatedPlayers;
 	private int pointLimit;
 	private List<Round> rounds;
     private ConsoleInput ci;
@@ -31,8 +30,11 @@ public class GameController {
      */
     public void startGameLoop() {
     	do {
-    		 nextRound();      
-             updateScores();    
+    		 nextRound();     
+    		 ci.writeLine("MARCADOR ACUMULADO");
+    		 for(Player p: players) {
+    			 ci.write(String.format("Jugador: %s\t Puntuaje:%d\n ", p.getName(),p.getScore()));
+    		 }
              eliminatePlayers(); 
              
              ci.displayScores(players); 
@@ -53,26 +55,13 @@ public class GameController {
         currentRound.execute(); 
     }
 
-    /**
-     * Al finalizar una ronda, se penaliza a los jugadores.
-     */
-    public void updateScores() {
-        for (Player p : players) {
-            // Obtenemos los puntos de las cartas que no pudo combinar
-            int pointsToAdd = p.getHand().calculateUncombinedPoints();
-            p.addPoints(pointsToAdd);
-            
-            ci.write(String.format("\n%s suma %d %s.\n", p.getName(),pointsToAdd,pointsToAdd>1?"puntos":"punto"));
-           
-        }
-    }
+   
 
     /**
      * Filtra la lista de jugadores eliminando a los que perdieron.
      */
     public void eliminatePlayers() {
-    	eliminatedPlayers = new ArrayList<>(players);
-    	eliminatedPlayers.removeIf(p -> {
+    	players.removeIf(p -> {
             boolean eliminated = p.isEliminated(pointLimit);
             if (eliminated) {
                 ci.write(String.format("El jugador %s ha sido eliminado.\n", p.getName()));
@@ -93,11 +82,12 @@ public class GameController {
      * Muestra quién es el campeón.
      */
     public Player declareWinner() {
+    	Player winner;
         if (players.isEmpty()) {
             ci.write("No hay ganadores, todos han sido eliminados.");
             return null;
         }
-        Player winner = players.get(0); // El ganador
+        winner = players.get(0); // El ganador
         ci.write(String.format("¡EL GANADOR ES  %s !\n", winner.getName().toUpperCase()));
         return winner;
     }

@@ -54,8 +54,6 @@ public class HumanPlayer extends Player {
 
 		if (answer) {
 			handleClosingSequence(discardPile);
-		} else {
-			ci.writeLine("No se puede cerrar la ronda");
 		}
 
 	}
@@ -69,7 +67,7 @@ public class HumanPlayer extends Player {
 
 		this.getHand().removeCard(cardToDiscard);
 		discardPile.push(cardToDiscard);
-		ci.write(String.format("Has descartado:", cardToDiscard.toString()));
+		
 	}
 
 	private void handleClosingSequence(DiscardPile discardPile) {
@@ -94,6 +92,11 @@ public class HumanPlayer extends Player {
 			ci.writeLine("¡Cierre válido! La ronda ha terminado.");
 			this.getHand().removeCard(closingDiscard);
 			discardPile.push(closingDiscard);
+			ci.write("Puntajes de la ronda\n");
+			ci.write("A ver si te muestras ya mrda\n");
+			ci.write("Bueno, no te muestres mrda\n");
+			
+			//deberian salir los puntajes
 		} else {
 			ci.writeLine("Combinaciones inválidas o carta de cierre demasiado alta. No puedes cerrar.");
 			ci.writeLine("Realizando descarte normal...");

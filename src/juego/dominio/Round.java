@@ -1,5 +1,6 @@
 package juego.dominio;
 
+
 import java.util.List;
 
 public class Round {
@@ -23,7 +24,7 @@ public class Round {
 	public void dealCards() {
 		for (Player p : players) {
 
-			p.getHand().reset();
+			p.resetForNewRound();
 		}
 
 		for (int i = 0; i < NORMAL_HAND_SIZE; i++) {
@@ -67,7 +68,44 @@ public class Round {
 			if (!isFinished) {
 				nextTurn();
 			}
-		} while (!isRoundOver());
+		}
+		while (!isRoundOver()); 
+		
+		updateScores();
+		
 	}
+	 /**
+     * Al finalizar una ronda, se penaliza a los jugadores.
+     */
+    public void updateScores() {
+    	int pointsToAdd;
+    	String details;
+    	System.out.println("Resumen de la ronda:");
+        for (Player p: players) {
+        	if (p.hasClosed()) {
+               
+                if (p.getHand().getCards().isEmpty()) {
+                	pointsToAdd = -10;
+                    details = "¡CIERRE CON 7 CARTAS! (Bonificación -10)";
+                } else {
+                	pointsToAdd = p.getHand().calculateUncombinedPoints();
+                    details = "Cierre con 6 cartas combinadas.";
+                }
+            } else {
+                // Los demás suman lo que tengan suelto
+            	pointsToAdd = p.getHand().calculateUncombinedPoints();
+                details = String.format("Cartas no combinadas:  %s\n",  p.getHand().getCards());
+            }
+
+           
+            p.addPoints(pointsToAdd);
+
+           
+            System.out.printf("%-15s | Suma: %+3d | %s",p.getName(),pointsToAdd,details);
+           
+           
+        }
+       
+    }
 
 }

@@ -40,7 +40,7 @@ public class ConsoleInput {
 	public int readIntInRange(int lowerBound, int upperBound) {
 		int numberInt;
 		do {
-			System.out.printf("Introduce un número entre %d y %d: ", lowerBound, upperBound);
+			
 			numberInt = readInt();
 			if (numberInt < lowerBound || numberInt > upperBound) {
 				System.out.printf("Error: %d no está en el rango [%d, %d].\n", numberInt, lowerBound, upperBound);
