@@ -5,16 +5,35 @@ import java.util.List;
 import java.util.Optional;
 
 import juego.app.ConsoleInput;
-
+/**
+ * Representa a un jugador humano en la partida de Chinchón.
+ * * Esta clase extiende de {@link Player} e implementa la lógica necesaria para
+ * interactuar con el usuario a través de la consola, permitiéndole tomar decisiones
+ * sobre el robo, descarte y el cierre de la ronda.
+ * * @author rgoncar723
+ * @version 1.0
+ */
 public class HumanPlayer extends Player {
 	private ConsoleInput ci;
-
+	/**
+     * Construye un nuevo jugador humano.
+     * @param name Nombre del jugador.
+     * @param ci Instancia de ConsoleInput para gestionar la interacción.
+     */
 	public HumanPlayer(String name, ConsoleInput ci) {
 		super(name);
 		this.ci = ci;
 
 	}
-
+	/**
+     * Ejecuta el flujo completo del turno de un humano.
+     * 1. Muestra el estado del tablero.
+     * 2. Gestiona el robo (mazo o descarte).
+     * 3. Gestiona el descarte obligatorio.
+     * 4. Consulta y procesa el intento de cierre de ronda.
+     * * @param deck Mazo de la ronda.
+     * @param discardPile Pila de descartes.
+     */
 	@Override
 	public void playTurn(Deck deck, DiscardPile discardPile) {
 		boolean answer = false;
@@ -57,7 +76,10 @@ public class HumanPlayer extends Player {
 		}
 
 	}
-
+	/**
+     * Gestiona la selección y ejecución del descarte ordinario.
+     * @param discardPile Pila donde se depositará la carta.
+     */
 	private void standardDiscard(DiscardPile discardPile) {
 		int discardIndex;
 		Card cardToDiscard;
@@ -69,7 +91,12 @@ public class HumanPlayer extends Player {
 		discardPile.push(cardToDiscard);
 		
 	}
-
+	/**
+     * Inicia la secuencia compleja para finalizar la ronda.
+     * Solicita al usuario la carta de cierre y la organización de los grupos
+     * para validar si cumple con las reglas del Chinchón.
+     * * @param discardPile Pila de descarte para la carta de cierre.
+     */
 	private void handleClosingSequence(DiscardPile discardPile) {
 		Card closingDiscard;
 		List<Card> cardsToCombine, group1, group2;
@@ -94,7 +121,7 @@ public class HumanPlayer extends Player {
 			discardPile.push(closingDiscard);
 		
 			this.setClosed(true);
-			//deberian salir los puntajes
+			
 		} else {
 			ci.writeLine("Combinaciones inválidas o carta de cierre demasiado alta. No puedes cerrar.");
 			ci.writeLine("Realizando descarte normal...");
@@ -102,7 +129,13 @@ public class HumanPlayer extends Player {
 			discardPile.push(closingDiscard);
 		}
 	}
-
+	/**
+     * Solicita al usuario que seleccione cartas para formar un grupo.
+     * @param order Texto descriptivo ("primer", "segundo").
+     * @param num Número de grupo.
+     * @param availableCards Lista de cartas disponibles para seleccionar.
+     * @return Lista de cartas seleccionadas para el grupo.
+     */
 	private List<Card> askForGroup(String order, int num, List<Card> availableCards) {
 		List<Card> group = new ArrayList<>();
 		String[] indices;
