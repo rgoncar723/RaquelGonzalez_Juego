@@ -2,7 +2,13 @@ package juego.dominio;
 
 
 import java.util.List;
-
+/**
+ * Representa una ronda individual dentro de una partida de Chinchón.
+ * Gestiona el mazo, la pila de descartes, el reparto de cartas, 
+ * el flujo de turnos y el recuento final de puntuaciones.
+ * * @author rgoncar723
+ * @version 1.0
+ */
 public class Round {
 	private List<Player> players;
 	private Deck deck;
@@ -11,7 +17,12 @@ public class Round {
 	private boolean isFinished;
 	private static final int NORMAL_HAND_SIZE = 7;
 	private int pointLimits;
-
+	/**
+     * Constructor de la ronda.
+     * @param players Lista de jugadores que participan en la ronda.
+     * @param numDecks Número de barajas a utilizar.
+     * @param pointLimits Límite de puntos para el control de eliminación.
+     */
 	public Round(List<Player> players, int numDecks, int pointLimits) {
 		this.players = players;
 		this.deck = new Deck(numDecks);
@@ -20,7 +31,11 @@ public class Round {
 		this.isFinished = false;
 		this.pointLimits = pointLimits;
 	}
-
+	/**
+     * Realiza el reparto inicial de cartas.
+     * Limpia el estado de los jugadores y reparte 7 cartas a cada uno.
+     * Al finalizar, sitúa la primera carta del mazo en la pila de descartes.
+     */
 	public void dealCards() {
 		for (Player p : players) {
 
@@ -34,7 +49,11 @@ public class Round {
 		}
 		pile.push(deck.drawCard(pile));
 	}
-
+	/**
+     * Ejecuta el turno del jugador actual.
+     * Si tras jugar su turno el jugador activa su flag de cierre, 
+     * la ronda se marca como finalizada.
+     */
 	public void start() {
 		Player currentPlayer = players.get(currentPlayerIndex);
 
@@ -45,23 +64,44 @@ public class Round {
 	        this.isFinished = true;
 	    }
 	}
+	/**
+     * Incrementa el índice para pasar el turno al siguiente jugador 
+     * de forma circular.
+     */
 
 	public void nextTurn() {
 		currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
 	}
-
+	/**
+     * Indica si la ronda ha concluido.
+     * @return true si alguien ha cerrado con éxito; false en caso contrario.
+     */
 	public boolean isRoundOver() {
 		return isFinished;
 	}
-
+	/**
+     * Obtiene el mazo de cartas actual de la ronda.
+     * Útil para consultar el estado de las cartas restantes o realizar
+     * operaciones de depuración sobre la baraja.
+     * * @return El objeto {@link Deck} que se está utilizando en esta ronda.
+     */
 	public Deck getDeck() {
 		return deck;
 	}
-
+	/**
+     * Obtiene la pila de descartes de la ronda.
+     * Permite acceder a la carta superior visible o gestionar el historial
+     * de cartas lanzadas por los jugadores.
+     * * @return El objeto {@link DiscardPile} asociado a la mesa de juego.
+     */
 	public DiscardPile getPile() {
 		return pile;
 	}
-
+	/**
+     * Orquestador de la ronda.
+     * Controla el flujo completo: reparto, bucle de turnos hasta el cierre 
+     * y actualización final de puntuaciones.
+     */
 	public void execute() {
 		dealCards();
 	    // Este bucle se repetirá hasta que isFinished sea true
@@ -74,8 +114,12 @@ public class Round {
 	    updateScores();
 		
 	}
-	 /**
-     * Al finalizar una ronda, se penaliza a los jugadores.
+	/**
+     * Finaliza la ronda calculando y asignando las penalizaciones.
+     * Aplica las reglas del Chinchón:
+     * - El que cierra con 7 cartas combinadas resta 10 puntos.
+     * - El que cierra con 6 cartas combinadas suma 0 puntos.
+     * - Los demás jugadores suman los puntos de sus cartas no combinadas.
      */
 	public void updateScores() {
 	    int pointsToAdd;
