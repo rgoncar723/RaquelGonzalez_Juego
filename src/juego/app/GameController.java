@@ -1,32 +1,49 @@
 package juego.app;
 import java.util.*;
 
+
 import juego.dominio.Player;
 import juego.dominio.Round;
+/**
+ * Controlador principal del flujo del juego de Chinchón.
+ * * Gestiona el ciclo de vida de la partida, coordinando la creación de rondas,
+ * el seguimiento de las puntuaciones acumuladas, la eliminación de jugadores
+ * que superan el límite de puntos y la declaración del ganador final.
+ * * @author rgoncar723
+ * @version 1.0
+ */
 public class GameController {
 	private List<Player> players;
 	private int pointLimit;
 	private List<Round> rounds;
     private ConsoleInput ci;
     private int numberOfDecks;
-    
-    public GameController(int pointLimit, int numberOfDecks, ConsoleInput ui) {
+    /**
+     * Constructor del controlador del juego.
+     * * @param pointLimit Límite de puntos establecido para la eliminación.
+     * @param numberOfDecks Número de barajas con las que se jugará.
+     * @param ci Instancia de ConsoleInput para la interacción.
+     */
+    public GameController(int pointLimit, int numberOfDecks, ConsoleInput ci) {
         this.players = new ArrayList<>();
         this.rounds = new ArrayList<>();
         this.pointLimit = pointLimit;
         this.numberOfDecks = numberOfDecks;
-        this.ci = ui;
+        this.ci = ci;
     }
 
     /**
-     * Punto de entrada principal tras configurar los jugadores.
+     * Inicia el proceso de bienvenida y arranca el bucle de juego principal.
      */
     public void startGame() {
         ci.write("¡Bienvenidos al Chinchón!\n");
         startGameLoop();
     }
     /**
-     * Bucle principal: Una iteración = Una ronda completa.
+     * Gestiona el bucle principal de la partida.
+     * * Ejecuta rondas de forma sucesiva mediante un bucle do-while. 
+     * Tras cada ronda, muestra el marcador, elimina a los jugadores que 
+     * exceden el límite y comprueba si se ha cumplido la condición de fin de juego.
      */
     public void startGameLoop() {
     	do {
@@ -44,10 +61,11 @@ public class GameController {
         declareWinner();
     }
     /**
-     * Crea una nueva instancia de Round y la ejecuta.
+     * Crea, registra y ejecuta una nueva ronda de juego.
+     * Cada ronda regenera el mazo y la pila de descartes de forma independiente.
      */
     public void nextRound() {
-        // En cada ronda el mazo se regenera 
+        
         Round currentRound = new Round(players, numberOfDecks, pointLimit);
         rounds.add(currentRound);
         
@@ -58,7 +76,9 @@ public class GameController {
    
 
     /**
-     * Filtra la lista de jugadores eliminando a los que perdieron.
+     * Filtra la lista de jugadores utilizando un predicado.
+     * Elimina de la colección a aquellos jugadores cuya puntuación acumulada
+     * sea igual o superior al límite de puntos establecido.
      */
     public void eliminatePlayers() {
     	players.removeIf(p -> {
@@ -72,14 +92,17 @@ public class GameController {
     }
 
     /**
-     * El juego termina si solo queda un jugador vivo (o ninguno por empate técnico).
+     * Determina si la partida ha finalizado.
+     * * @return true si queda uno o ningún jugador en la lista; false si la partida continúa.
      */
     public boolean isGameOver() {
         return players.size() <= 1;
     }
 
     /**
-     * Muestra quién es el campeón.
+     * Finaliza la partida y anuncia el resultado.
+     * Identifica al último jugador restante como el campeón de la partida.
+     * * @return El objeto {@link Player} ganador, o null si no quedan jugadores.
      */
     public Player declareWinner() {
     	Player winner;
@@ -87,11 +110,14 @@ public class GameController {
             ci.write("No hay ganadores, todos han sido eliminados.");
             return null;
         }
-        winner = players.get(0); // El ganador
+        winner = players.get(0); 
         ci.write(String.format("¡EL GANADOR ES  %s !\n", winner.getName().toUpperCase()));
         return winner;
     }
-
+    /**
+     * Añade un nuevo jugador a la lista de participantes antes de iniciar la partida.
+     * * @param player El jugador (humano o IA) que se une a la partida.
+     */
     public void addPlayer(Player player) {
         players.add(player);
     }
