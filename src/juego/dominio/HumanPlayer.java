@@ -93,7 +93,7 @@ public class HumanPlayer extends Player {
 			this.getHand().removeCard(closingDiscard);
 			discardPile.push(closingDiscard);
 		
-			
+			this.setClosed(true);
 			//deberian salir los puntajes
 		} else {
 			ci.writeLine("Combinaciones inválidas o carta de cierre demasiado alta. No puedes cerrar.");
