@@ -10,7 +10,9 @@ import java.util.Optional;
  * Gestiona el montón de descartes del juego, donde los jugadores colocan las
  * cartas de las que se deshacen al final de su turno[cite: 22, 28]. * Funciona
  * como una estructura LIFO (Last-In, First-Out), permitiendo visualizar o robar
- * únicamente la última carta descartada. * @author rgoncar723
+ * únicamente la última carta descartada. *
+ * 
+ * @author rgoncar723
  * 
  * @version 1.0
  */
@@ -54,7 +56,7 @@ public class DiscardPile {
 	/**
 	 * Verifica si el montón de descarte está vacío.
 	 * 
-	 * @return @code true si no hay cartas, @code false en caso contrario.
+	 * @return  true si no hay cartas,  false en caso contrario.
 	 */
 	public boolean isEmpty() {
 		return cards.isEmpty();
@@ -64,7 +66,7 @@ public class DiscardPile {
 	 * Prepara el reciclaje de cartas para el mazo cuando este se agota. Extrae
 	 * todas las cartas excepto la superior, que debe permanecer visible para el
 	 * siguiente turno. 
-	 * * @return Una lista con las cartas para reponer en el mazo.
+	 *  @return Una lista con las cartas para reponer en el mazo.
 	 */
 	public List<Card> grabAllButLast() {
 		List<Card> rest;
@@ -72,10 +74,10 @@ public class DiscardPile {
 		if (cards.isEmpty()) {
 			return new ArrayList<>();
 		}
-		topCard = cards.pop(); 
-		rest = new ArrayList<>(cards); 
-		cards.clear(); 
-		cards.push(topCard); 
+		topCard = cards.pop();
+		rest = new ArrayList<>(cards);
+		cards.clear();
+		cards.push(topCard);
 		return rest;
 	}
 }

@@ -5,7 +5,13 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * Clase de utilidad que contiene la lógica de validación de reglas del Chinchón.
+ * * Proporciona métodos estáticos para verificar combinaciones de cartas (grupos y secuencias),
+ * calcular puntuaciones de cartas no combinadas y validar la legalidad del cierre de una ronda.
+ * * @author rgoncar723
+ * @version 1.0
+ */
 public class CombinationUtils {
 	private static final int NORMAL_HAND_SIZE = 7;
 
@@ -30,11 +36,11 @@ public class CombinationUtils {
 	}
 
 	/**
-	 * Comprueba si un grupo de cartas forma una sequencia (escalera del mismo palo)
-	 * 
-	 * @param cards Lista de cartas a validar.
-	 * @return true si hay al menos 3 cartas consecutivas del mismo palo.
-	 */
+     * Comprueba si una lista de cartas forma una "Secuencia" o escalera.
+     * Una secuencia válida requiere al menos 3 cartas del mismo palo y con valores consecutivos.
+     *  @param cards Lista de cartas a validar.
+     * @return true si forman una escalera válida del mismo palo.
+     */
 
 	public static boolean isSequence(List<Card> cards) {
 		Suit firstSuit;
@@ -65,9 +71,11 @@ public class CombinationUtils {
 	}
 
 	/**
-	 * Devuelve un índice que respeta el orden de la baraja española: 1→0, 2→1, 3→2,
-	 * 4→3, 5→4, 6→5, 7→6, 10→7, 11→8, 12→9.
-	 */
+     * Traduce el valor nominal de la carta a su posición lógica en la baraja española.
+     * Gestiona el salto entre el 7 y la Sota (10).
+     * * @param card Carta a evaluar.
+     * @return Índice corregido (0-9).
+     */
 	private static int getSpanishOrder(Card card) {
 		int value = card.getPoints();
 		if (value >= 1 && value <= 7) {
@@ -77,11 +85,11 @@ public class CombinationUtils {
 		return value - 3; 
 	}
 
-	 /**
-     * Calcula la suma de puntos de las cartas NO incluidas en los grupos elegidos.
-     * @param allCards Todas las cartas de la mano (normalmente 7 u 8)
-     * @param chosenGroups Lista de grupos (cada grupo es una lista de cartas)
-     * @return Puntos totales de las cartas sueltas
+	/**
+     * Calcula la suma de puntos de las cartas que no pertenecen a ninguna combinación elegida.
+     * * @param allCards Lista completa de cartas del jugador.
+     * @param chosenGroups Lista que contiene las listas de cartas agrupadas.
+     * @return Suma total de los puntos de las cartas sueltas.
      */
     public static int calculateUncombinedPoints(List<Card> allCards, List<List<Card>> chosenGroups) {
         Set<Card> used = new HashSet<>();
@@ -97,29 +105,38 @@ public class CombinationUtils {
         return total;
     }
 
-	/**
-	 * Verifica si el jugador tiene un Chinchón (7 cartas consecutivas del mismo
-	 * palo)
-	 * 
-	 * @param cards Lista de cartas a verificar.
-	 * @return true si se cumple la condición y false si no.
-	 */
+    /**
+     * Verifica si la mano constituye un Chinchón.
+     * Se define como una secuencia completa de 7 cartas del mismo palo.
+     * * @param cards Lista de 7 cartas.
+     * @return true si es Chinchón.
+     */
 	public static boolean isChinchon(List<Card> cards) {
 		if (cards.size() == NORMAL_HAND_SIZE && isSequence(cards)) {
 			return true;
 		}
 		return false;
 	}
+	/**
+     * Valida si el intento de cierre de un jugador cumple con las reglas oficiales.
+     * * Casos permitidos:
+     * 1. Chinchón.
+     * 2. 7 cartas combinadas.
+     * 3. 6 cartas combinadas y carta de cierre (sobrante) menor o igual a 5.
+     * @param g1 Primer grupo de cartas.
+     * @param g2 Segundo grupo de cartas (puede ser lista vacía).
+     * @param closingDiscard Carta que el jugador descarta para cerrar.
+     * @return true si el cierre es legal.
+     */
 	public static boolean validateClosing(List<Card> g1, List<Card> g2, Card closingDiscard) {
-        // Regla: La carta de cierre debe valer entre 1 y 5 si no todas están combinadas. 
-        // Si el jugador combina las 7 cartas, el valor de la carta de cierre no importa (es solo un descarte). 
+       
         
         boolean g1Valid = isValidGroup(g1);
         boolean g2Valid = g2.isEmpty() || isValidGroup(g2); // El segundo grupo puede estar vacío
 
         int combinedCount = (g1Valid ? g1.size() : 0) + (g2Valid ? g2.size() : 0);
 
-        // Caso 1: Chinchón (7 cartas consecutivas del mismo palo) [cite: 38, 39, 45]
+        // Caso 1: Chinchón (7 cartas consecutivas del mismo palo) 
         if (isChinchon(g1)) {
             return true; 
         }
@@ -137,17 +154,19 @@ public class CombinationUtils {
         return false;
     }
 
-    /**
-     * Verifica si una lista de cartas forma un grupo válido (Set o Run). [cite: 30]
+	/**
+     * Comprueba si un subconjunto de cartas es un grupo o una secuencia válida.
+     * * @param group Lista de cartas.
+     * @return true si cumple con alguna de las dos combinaciones.
      */
     public static boolean isValidGroup(List<Card> group) {
         if (group.size() < 3) return false; // Mínimo 3 cartas [cite: 32, 34]
         return isGroup(group) || isSequence(group);
     }
     /**
-     * 
-     * @param cards
-     * @return
+     * Calcula la suma total de puntos de una lista de cartas sin considerar combinaciones.
+     * * @param cards Lista de cartas.
+     * @return Suma de los puntos nominales.
      */
     public static int calculateUncombinedPointsAll(List<Card>cards) {
 		int sum;
