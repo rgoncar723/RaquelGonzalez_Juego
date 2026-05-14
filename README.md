@@ -70,3 +70,23 @@ La creación de jugadores se gestiona mediante el patrón Builder (en una varian
 
 
 ## Pruebas y Validaciones
+[Pruebas Unitarias](PruebasUnitarias.png) 
+Se realizaron 6 pruebas principales, todas con un resultado exitoso (barra verde).
+## testIsSequenceSpanishOrde
+### Enfoque: Caja Blanca.
+Ya que se analiza la ruta lógica interna que permite saltar del valor 7 al 10 (Sota). Debido a que en la baraja española de 40 cartas no existen el 8 ni el 9, por ende prueba asegura que el método getSpanishOrder traduzca correctamente los rangos para que una secuencia (ej: 7-Sota-Caballo) se reconozca como consecutiva.
+## testValidateClosingScenarios
+### Enfoque: Caja Negra.
+Se evalúan los requisitos de cierre del juego como si fuera un usuario externo. La prueba verifica que el sistema permita cerrar cuando el jugador tiene 6 cartas combinadas y una carta de cierre de valor menor a 5, o cuando tiene las 7 cartas combinadas. De ese modo, valida que el resultado sea un booleano correcto según las reglas oficiales.
+## testCalculateUncombinedPointsAll
+### Enfoque: Caja Negra.
+Se Verifica el cálculo de la suma total de puntos nominales de una lista de cartas. En la captura se observa un caso de prueba donde cartas como (7 de Oros, Sota de Oros y Rey de Oros) deben sumar exactamente 29 puntos (7 + 10 + 12). Y por tanto, se valida que la salida coincida con el valor esperado sin importar la implementación de los streams internos.
+## testIsChinchon
+### Enfoque: Caja Negra.
+Se Comprueba la condición de victoria máxima: una secuencia de 7 cartas del mismo palo. La prueba suministra una mano completa y verifica si el sistema identifica correctamente este estado especial que otorga -100 puntos.
+## testIsSequenceWrongSuits
+### Enfoque: Caja Blanca.
+Se centra en la cobertura de condiciones del código. Específicamente verifica que el bucle de validación de palos detecte  si una carta tiene un palo distinto al resto de la secuencia. Como se ve en la captura y en el código : "Una secuencia debe ser obligatoriamente del mismo palo".
+## testIsGroup
+### Enfoque: Caja Negra.
+Se valida que un conjunto de cartas (mínimo 3) tengan el mismo valor numérico. Es una prueba funcional que asegura que por ejemplo, tres Reyes de diferentes palos sean reconocidos como un grupo válido.
