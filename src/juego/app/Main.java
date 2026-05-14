@@ -3,11 +3,13 @@ package juego.app;
 import java.util.List;
 
 import juego.dominio.Player;
+
 /**
- * Clase principal que actúa como punto de entrada para la aplicación Chinchón 2026.
- * * Se encarga de la inicialización de los componentes básicos, la configuración 
- * inicial por parte del usuario y el arranque del motor de juego. 
+ * Clase principal que actúa como punto de entrada para la aplicación Chinchón
+ * 2026. * Se encarga de la inicialización de los componentes básicos, la
+ * configuración inicial por parte del usuario y el arranque del motor de juego.
  * * @author rgoncar723
+ * 
  * @version 1.0
  */
 public class Main {
@@ -17,8 +19,8 @@ public class Main {
 		List<Player> players;
 		GameController game;
 
-		ci.writeLine("       BIENVENIDO A CHINCHÓN 2026       ");
-		
+		ci.writeLine("BIENVENIDO A CHINCHÓN 2026");
+
 		ci.writeLine("¿Cuántos jugadores participarán? ");
 		numPlayers = ci.readInt();
 		ci.writeLine("El límitee de puntos es 100");
@@ -26,7 +28,6 @@ public class Main {
 		ci.writeLine("¿Con cuántas barajas jugaran?: ");
 		numDecks = ci.readInt();
 
-		
 		ci.writeLine("\n--- CONFIGURACIÓN DE JUGADORES ---");
 		players = PlayerBuilder.buildPlayers(numPlayers, ci);
 
@@ -36,12 +37,10 @@ public class Main {
 			game.addPlayer(p);
 		}
 
-		
-		
 		try {
 			game.startGame();
 		} catch (Exception e) {
-			ci.writeLine("Se ha producido un error crítico: " + e.getMessage());
+			ci.write(String.format("Se ha producido un error crítico: %s", e.getMessage()));
 		}
 
 	}
