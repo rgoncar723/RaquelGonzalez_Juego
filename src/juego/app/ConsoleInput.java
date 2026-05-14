@@ -7,20 +7,36 @@ import juego.dominio.Card;
 import juego.dominio.DiscardPile;
 import juego.dominio.Hand;
 import juego.dominio.Player;
-
+/**
+ * Gestiona la interacción entre el usuario y el sistema a través de la consola.
+ * * Centraliza la lectura de datos mediante Scanner, aplicando validaciones y
+ * control de errores (excepciones), y proporciona métodos para visualizar
+ * el estado del juego (tablero, manos, puntuaciones).
+ * * @author rgoncar723
+ * @version 1.0
+ */
 public class ConsoleInput {
 	private final Scanner kb;
-
+	/**
+	 * Inicializa el lector de teclado.
+	 */
 	public ConsoleInput() {
 		kb = new Scanner(System.in);
 	}
-
-	void cleanInput() {// Limpiar el buffer
+	/**
+	 * Limpia el buffer de entrada del Scanner.
+	 */
+	void cleanInput() {
 
 		kb.nextLine();
 
 	}
-
+	/**
+	 * Lee un número entero de la consola. 
+	 * Implementa un bucle de control para asegurar que la entrada sea un entero válido,
+	 * capturando posibles errores de formato.
+	 * @return El número entero introducido por el usuario.
+	 */
 	public int readInt() {
 		int numberInt = 0;
 		boolean error = true;
@@ -28,15 +44,23 @@ public class ConsoleInput {
 			try {
 				numberInt = kb.nextInt();
 				error = false;
-				kb.nextLine(); 
+				 
 			} catch (NumberFormatException e) {
 				System.out.printf("Error: El valor debe ser un número entero entre %d y %d.\n", Integer.MIN_VALUE,
 						Integer.MAX_VALUE);
 			}
+			finally {
+				cleanInput();
+			}
 		} while (error);
 		return numberInt;
 	}
-
+	/**
+	 * Lee un entero asegurando que se encuentre dentro de un rango específico.
+	 * @param lowerBound Límite inferior (inclusive).
+	 * @param upperBound Límite superior (inclusive).
+	 * @return El entero validado dentro del rango.
+	 */
 	public int readIntInRange(int lowerBound, int upperBound) {
 		int numberInt;
 		do {
@@ -48,11 +72,17 @@ public class ConsoleInput {
 		} while (numberInt < lowerBound || numberInt > upperBound);
 		return numberInt;
 	}
-
+	/**
+	 * Lee una línea de texto completa.
+	 * @return El String introducido.
+	 */
 	public String readString() {
 		return kb.nextLine();
 	}
-
+	/**
+	 * Lee una cadena de texto asegurando que no esté vacía o compuesta solo por espacios.
+	 * @return Cadena de texto validada.
+	 */
 	public String readStringNotEmpty() {
 		String text;
 		do {
@@ -64,7 +94,11 @@ public class ConsoleInput {
 		} while (text.trim().isEmpty());
 		return text;
 	}
-
+	/**
+	 * Lee una cadena de texto con una restricción de longitud máxima.
+	 * @param maxLength Número máximo de caracteres permitidos.
+	 * @return Cadena de texto validada por longitud.
+	 */
 	public String readString(int maxLength) {
 		String text;
 		do {
@@ -77,6 +111,10 @@ public class ConsoleInput {
 		} while (text.length() > maxLength);
 		return text;
 	}
+	/**
+	 * Lee un único carácter de la entrada.
+	 * @return El carácter introducido.
+	 */
 	public char readChar() {
 		String text;
 
@@ -89,7 +127,12 @@ public class ConsoleInput {
 		} while (text.length() != 1);
 		return text.charAt(0);
 	}
-
+	/**
+	 * Lee una respuesta booleana basada en dos caracteres (ej: 's'/'n').
+	 * @param affirmativeValue Carácter que representa true.
+	 * @param negativeValue Carácter que representa false.
+	 * @return true si coincide con el afirmativo, false si coincide con el negativo.
+	 */
 	public boolean readBooleanUsingChar(char affirmativeValue, char negativeValue) {
 		char input;
 		boolean result = false;
@@ -114,15 +157,11 @@ public class ConsoleInput {
 
 		return result;
 	}
-	public String getUserName(Player player) {
-		return String.format("Nombre: %s", player.toString().toUpperCase());
-	}
-
-	// Verificar
-	public String getPlayerType(Player player) {
-		return String.format("Tipo de jugador: %s", player.getClass().toString());
-	}
-
+	
+	/**
+	 * Muestra por consola las cartas de una mano con sus índices correspondientes.
+	 * @param hand La mano a visualizar.
+	 */
 	public void displayHand(Hand hand) {
 		writeLine("TU MANO:");
 		List<Card> cards = hand.getCards();
@@ -140,7 +179,12 @@ public class ConsoleInput {
 		}
 		writeLine("\n" + "-".repeat(40));
 	}
-
+	/**
+	 * Representa visualmente el estado actual del juego para el jugador.
+	 * Muestra el turno, la carta visible del descarte y la mano del jugador.
+	 * @param player El jugador que tiene el turno.
+	 * @param pile La pila de descartes común.
+	 */
 	public void displayBoard(Player player, DiscardPile pile) {
 
 		writeLine("=".repeat(40));
@@ -156,14 +200,23 @@ public class ConsoleInput {
 
 		}
 
-		// Mostrar la mano del jugador
+		
 		displayHand(player.getHand());
 	}
-
+	/**
+     * Solicita al usuario el índice de la carta que desea descartar.
+     * Realiza la conversión automática entre el índice visual (basado en 1) 
+     * y el índice técnico de la lista (basado en 0).
+     * * @param handSize El número actual de cartas en la mano del jugador.
+     * @return El índice validado de la lista (0 a handSize-1).
+     */
 	public int getDiscardIndex(int handSize) {
 		return readIntInRange(1, handSize) - 1;
 	}
-
+	/**
+	 * Muestra una tabla con los nombres y puntuaciones acumuladas de los jugadores.
+	 * @param players Lista de jugadores activos.
+	 */
 	public void displayScores(List<Player> players) {
 		System.out.printf("\tTABLA DE PUNTUACIONES\t\n%-15s | %-10s\n----------------------------------------\n",
 				"JUGADOR", "PUNTOS");
@@ -171,13 +224,23 @@ public class ConsoleInput {
 			System.out.printf("%-15s | %-10d\n", p.getName(), p.getScore());
 		}
 	}
+	/**
+	 * Gestiona la selección de una carta para descartar.
+	 * @param hand Mano del jugador.
+	 * @return La carta seleccionada por el usuario.
+	 */
 	public Card askDiscardCard(Hand hand) {
 		int handSize, index;
 	    displayHand(hand);
 	    handSize = hand.getCards().size();
-	    index = readIntInRange(1, handSize)-1;
+	    index = getDiscardIndex(handSize);
 	    return hand.getCards().get(index);
 	}
+	/**
+	 * Gestiona la decisión del jugador sobre de dónde robar una carta.
+	 * @param isDiscardEmpty Indica si la pila de descarte está vacía para restringir la opción.
+	 * @return 1 para Mazo, 2 para Descarte.
+	 */
 	public int getDrawChoice(boolean isDiscardEmpty) {
 		int choice = 0;
 			
@@ -192,11 +255,18 @@ public class ConsoleInput {
 
 		return choice;
 	}
+	/**
+	 * Wrapper para System.out.print.
+	 * @param texto Cadena a mostrar.
+	 */
 
 	public void write(String texto) {
 		System.out.print(texto);
 	}
-
+	/**
+	 * Wrapper para System.out.println.
+	 * @param texto Cadena a mostrar con salto de línea.
+	 */
 	public void writeLine(String texto) {
 		System.out.println(texto);
 	}
