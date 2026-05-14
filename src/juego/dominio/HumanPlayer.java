@@ -92,9 +92,7 @@ public class HumanPlayer extends Player {
 			ci.writeLine("¡Cierre válido! La ronda ha terminado.");
 			this.getHand().removeCard(closingDiscard);
 			discardPile.push(closingDiscard);
-			ci.write("Puntajes de la ronda\n");
-			ci.write("A ver si te muestras ya mrda\n");
-			ci.write("Bueno, no te muestres mrda\n");
+		
 			
 			//deberian salir los puntajes
 		} else {

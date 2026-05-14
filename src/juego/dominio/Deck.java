@@ -43,6 +43,8 @@ public class Deck {
      * @throws IllegalStateException Si no quedan cartas ni en el mazo ni en el descarte.
      */
     public Card drawCard(DiscardPile discardPile) {
+    	removeCard();
+    	
         if (cards.isEmpty()) {
             refillFromDiscard(discardPile);
         }
@@ -61,5 +63,16 @@ public class Deck {
     public int sizeDeck() {
         return cards.size();
     }
+    public boolean removeCard() {
+    
+		if (cards.isEmpty()) {
+            throw new IllegalStateException("No quedan cartas en el mazo");
+        }else {
+        	return cards.remove(cards.getLast());
+        }
+		
+		
+		
+	}
 	
 }

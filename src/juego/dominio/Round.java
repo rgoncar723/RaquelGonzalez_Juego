@@ -40,9 +40,10 @@ public class Round {
 
 		currentPlayer.playTurn(deck, pile);
 
-		if (currentPlayer.getHand().canClose(currentPlayer.getScore(), pointLimits)) {
-			this.isFinished = true;
-		}
+	    
+	    if (currentPlayer.hasClosed()) {
+	        this.isFinished = true;
+	    }
 	}
 
 	public void nextTurn() {
@@ -63,49 +64,52 @@ public class Round {
 
 	public void execute() {
 		dealCards();
-		do {
-			start();
-			if (!isFinished) {
-				nextTurn();
-			}
-		}
-		while (!isRoundOver()); 
-		
-		updateScores();
+	    // Este bucle se repetirá hasta que isFinished sea true
+	    while (!isFinished) { 
+	        start();
+	        if (!isFinished) {
+	            nextTurn();
+	        }
+	    }
+	    updateScores();
 		
 	}
 	 /**
      * Al finalizar una ronda, se penaliza a los jugadores.
      */
-    public void updateScores() {
-    	int pointsToAdd;
-    	String details;
-    	System.out.println("Resumen de la ronda:");
-        for (Player p: players) {
-        	if (p.hasClosed()) {
-               
-                if (p.getHand().getCards().isEmpty()) {
-                	pointsToAdd = -10;
-                    details = "¡CIERRE CON 7 CARTAS! (Bonificación -10)";
-                } else {
-                	pointsToAdd = p.getHand().calculateUncombinedPoints();
-                    details = "Cierre con 6 cartas combinadas.";
-                }
-            } else {
-                // Los demás suman lo que tengan suelto
-            	pointsToAdd = p.getHand().calculateUncombinedPoints();
-                details = String.format("Cartas no combinadas:  %s\n",  p.getHand().getCards());
-            }
+	public void updateScores() {
+	    int pointsToAdd;
+	    String details;
+	    System.out.println("\n--- RESUMEN DE LA RONDA ---");
 
-           
-            p.addPoints(pointsToAdd);
+	    for (Player p : players) {
+	        // Obtenemos cuántas cartas le quedan tras el descarte/cierre
+	        int remainingCards = p.getHand().getCards().size();
 
-           
-            System.out.printf("%-15s | Suma: %+3d | %s",p.getName(),pointsToAdd,details);
-           
-           
-        }
-       
-    }
+	        if (p.hasClosed()) {
+	            // Caso A: El jugador ha cerrado la ronda
+	            // Si le quedan 0 cartas es porque combinó las 7 (7 - 1 del cierre = 0)
+	            if (remainingCards == 0) {
+	                pointsToAdd = -10;
+	                details = "¡CIERRE CON 7! (Bonificación -10)";
+	            } else {
+	                // Si le quedan cartas (normalmente 6 combinadas), suma 0
+	                pointsToAdd = 0;
+	                details = "Cierre con 6 combinadas (Suma 0)";
+	            }
+	        } else {
+	            // Caso B: El resto de jugadores suman sus puntos no combinados
+	            pointsToAdd = p.getHand().calculateUncombinedPoints();
+	            details = String.format("Cartas sueltas: %s", p.getHand().getCards());
+	        }
+
+	        // Actualizamos el marcador global del jugador
+	        p.addPoints(pointsToAdd);
+
+	        // Imprimimos la línea de formato (añadido \n al final para evitar amontonamiento)
+	        System.out.printf("%-15s | Suma: %+3d | %s\n", p.getName(), pointsToAdd, details);
+	    }
+	    System.out.println("---------------------------\n");
+	}
 
 }

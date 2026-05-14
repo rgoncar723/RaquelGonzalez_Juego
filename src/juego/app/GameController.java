@@ -31,7 +31,7 @@ public class GameController {
     public void startGameLoop() {
     	do {
     		 nextRound();     
-    		 ci.writeLine("MARCADOR ACUMULADO");
+    		 ci.write("\nMARCADOR ACUMULADO\n");
     		 for(Player p: players) {
     			 ci.write(String.format("Jugador: %s\t Puntuaje:%d\n ", p.getName(),p.getScore()));
     		 }
@@ -51,7 +51,7 @@ public class GameController {
         Round currentRound = new Round(players, numberOfDecks, pointLimit);
         rounds.add(currentRound);
         
-        ci.write("--- Iniciando nueva ronda ---\n");
+        ci.write("\n--- Iniciando nueva ronda ---\n");
         currentRound.execute(); 
     }
 

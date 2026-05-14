@@ -16,8 +16,8 @@ public class Main {
 		// Usamos los métodos de ConsoleInput para validar la entrada
 		ci.writeLine("¿Cuántos jugadores participarán? ");
 		numPlayers = ci.readInt();
-		ci.writeLine("¿Límite de puntos para eliminación? (Estandar: 100): ");
-		pointLimit = ci.readInt();
+		ci.writeLine("El límitee de puntos es 100");
+		pointLimit = 100;
 		ci.writeLine("¿Con cuántas barajas jugaran?: ");
 		numDecks = ci.readInt();
 
@@ -34,8 +34,8 @@ public class Main {
 			game.addPlayer(p);
 		}
 
-		// 4. Ejecución del bucle de juego
-		ci.writeLine("¡Todo listo! Que comience la partida...");
+		
+		
 		try {
 			game.startGame();
 		} catch (Exception e) {

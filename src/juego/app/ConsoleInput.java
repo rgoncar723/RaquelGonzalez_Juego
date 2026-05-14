@@ -128,8 +128,8 @@ public class ConsoleInput {
 		List<Card> cards = hand.getCards();
 
 		
-		for (int i = 1; i <= cards.size(); i++) {
-			write(String.format("(%d)\t", i));
+		for (int i = 0; i <= cards.size()-1; i++) {
+			write(String.format("(%d)\t", i+1));
 
 		}
 		writeLine("");
@@ -143,7 +143,7 @@ public class ConsoleInput {
 
 	public void displayBoard(Player player, DiscardPile pile) {
 
-		writeLine("\n" + "=".repeat(40));
+		writeLine("=".repeat(40));
 
 		write(String.format("TURNO ACTUAL: %s\n ", player.getName().toUpperCase()));
 

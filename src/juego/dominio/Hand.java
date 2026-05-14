@@ -23,19 +23,15 @@ public class Hand {
 		} else {
 			System.out.println("No puedes agregar una carta a tu mano, debes soltar una");
 		}
+		 
 	}
 
-	/**
-	 * 
-	 * @param card
-	 */
+
+
 	public void removeCard(Card card) {
-		cards.remove(card);
+	     cards.remove(card);
+	    
 	}
-
-	/**
-	 * 
-	 */
 	public void sortBySuit() {
 		cards.sort(Comparator.comparing(Card::getSuit).thenComparingInt(Card::getPoints));
 	}
