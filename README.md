@@ -27,6 +27,57 @@ La lógica de validación se centraliza en la clase CombinationUtils y sigue est
 - Puntuación: Los jugadores que no cierran suman los puntos de sus cartas no combinadas. Las figuras valen: Sota (10), Caballo (11) y Rey (12).
 
 ## 🏗️ Arquitectura del Sistema (Clases por Paquetes)
+### Arbol de carpetas 
+```
+Chinchon2026/
+│
+├── README.md
+├── UMLPROYECTO.png
+├── PruebasUnitarias.png
+│
+├── .classpath
+├── .project
+├── .settings/
+│
+├── bin/
+│   └── juego/
+│       ├── app/
+│       └── dominio/
+│
+├── src/
+│   └── juego/
+│       ├── app/
+│       │   ├── Main.java
+│       │   ├── GameController.java
+│       │   ├── ConsoleInput.java
+│       │   └── PlayerBuilder.java
+│       │
+│       └── dominio/
+│           ├── Card.java
+│           ├── Rank.java
+│           ├── Suit.java
+│           ├── Deck.java
+│           ├── DeckFactory.java
+│           ├── DiscardPile.java
+│           ├── Hand.java
+│           ├── CombinationUtils.java
+│           ├── Player.java
+│           ├── HumanPlayer.java
+│           ├── AiPlayer.java
+│           └── Round.java
+│
+└── test/
+    └── juego/
+        └── pruebas/
+            ├── CombinationUtilsTest.java
+            ├── testIsSequenceSpanishOrder.java
+            ├── testValidateClosingScenarios.java
+            ├── testCalculateUncombinedPointsAll.java
+            ├── testIsChinchon.java
+            ├── testIsSequenceWrongSuits.java
+            └── testIsGroup.java
+```
+
 ### Paquete juego.dominio
 Contiene la lógica de negocio y las entidades del juego.
 
