@@ -30,36 +30,36 @@ La lógica de validación se centraliza en la clase CombinationUtils y sigue est
 ### Paquete juego.dominio
 Contiene la lógica de negocio y las entidades del juego.
 
-- Card: Representa la unidad básica de juego.
+- [Card](/src/juego/dominio/Card.java): Representa la unidad básica de juego.
 
-- Rank y Suit suit.md:  Enumerados que restringen los valores de las cartas a la baraja española (1-7, 10-12) y gestionan la representación visual mediante emojis.
+- [Rank](/src/juego/dominio/Rank.java) y [Suit](/src/juego/dominio/Suit.java):  Enumerados que restringen los valores de las cartas a la baraja española (1-7, 10-12) y gestionan la representación visual mediante emojis.
 
-- Deck y DeckFactory: Deck gestiona el mazo como una estructura de datos Deque. DeckFactory implementa la lógica de creación de barajas (simples o dobles) y su barajado inicial.
+- [Deck](/src/juego/dominio/Deck.java) y [DeckFactory](/src/juego/dominio/DeckFactory.java) : Deck gestiona el mazo como una estructura de datos Deque. DeckFactory implementa la lógica de creación de barajas (simples o dobles) y su barajado inicial.
 
-- DiscardPile: Gestiona el montón de cartas descartadas (LIFO). Incluye el método grabAllButLast() para permitir el reciclaje del mazo cuando este se agota.
+- [DiscardPile](/src/juego/dominio/DiscardPile.java) : Gestiona el montón de cartas descartadas (LIFO). Incluye el método grabAllButLast() para permitir el reciclaje del mazo cuando este se agota.
 
-- Hand: Almacena las cartas del jugador. Incluye métodos de ordenación y algoritmos de optimización, como getBestDiscard(), que simula qué carta eliminar para minimizar puntos.
+- [Hand](/src/juego/dominio/Hand.java) : Almacena las cartas del jugador. Incluye métodos de ordenación y algoritmos de optimización, como getBestDiscard(), que simula qué carta eliminar para minimizar puntos.
 
-- CombinationUtils: Clase de utilidad que valida si una lista de cartas es un grupo o secuencia, gestiona el salto numérico entre el 7 y la Sota (10) y verifica la legalidad del cierre.
+- [CombinationUtils](/src/juego/dominio/CombinationUtils.java) : Clase de utilidad que valida si una lista de cartas es un grupo o secuencia, gestiona el salto numérico entre el 7 y la Sota (10) y verifica la legalidad del cierre.
 
-- Player (Abstracta): Define la estructura común para todos los jugadores (nombre, score, hand). Define el método abstracto playTurn() que permite el comportamiento polimórfico.
+- [Player](/src/juego/dominio/Player.java)  (Abstracta): Define la estructura común para todos los jugadores (nombre, score, hand). Define el método abstracto playTurn() que permite el comportamiento polimórfico.
 
-- HumanPlayer: Implementa la interacción con el usuario. Solicita manualmente qué carta robar, descartar o cómo agrupar las cartas para cerrar.
+- [HumanPlayer](/src/juego/dominio/HumanPlayer.java) : Implementa la interacción con el usuario. Solicita manualmente qué carta robar, descartar o cómo agrupar las cartas para cerrar.
 
-- AiPlayer: Implementa una IA que toma decisiones basadas en la utilidad. Evalúa si una carta del descarte le ayuda a formar una combinación mediante búsqueda exhaustiva antes de recogerla.
+- [AiPLlayer](/src/juego/dominio/AiPlayer.java) : Implementa una IA que toma decisiones basadas en la utilidad. Evalúa si una carta del descarte le ayuda a formar una combinación mediante búsqueda exhaustiva antes de recogerla.
 
-- Round: Gestiona el ciclo de vida de una ronda individual, desde el reparto hasta el cálculo final de puntos tras un cierre.
+- [Round](/src/juego/dominio/Round.java) : Gestiona el ciclo de vida de una ronda individual, desde el reparto hasta el cálculo final de puntos tras un cierre.
 
 ### 📦 Paquete juego.app
 Contiene las clases de control y la interfaz de usuario.
 
-- Main: Punto de entrada de la aplicación que inicializa la configuración de la partida.
+- [Main](/src/juego/app/Main.java) : Punto de entrada de la aplicación que inicializa la configuración de la partida.
 
-- GameController: Orquestador principal de la partida. Controla la sucesión de rondas, elimina a jugadores que superan los 100 puntos y declara al ganador.
+- [GameController](/src/juego/app/GameController.java): Orquestador principal de la partida. Controla la sucesión de rondas, elimina a jugadores que superan los 100 puntos y declara al ganador.
 
-- ConsoleInput: Encapsula el uso de Scanner. Provee métodos validados para leer enteros en rangos, caracteres y cadenas, evitando errores de ejecución por entradas inválidas.
+- [ConsoleInput](/src/juego/app/ConsoleInput.java): Encapsula el uso de Scanner. Provee métodos validados para leer enteros en rangos, caracteres y cadenas, evitando errores de ejecución por entradas inválidas.
 
-- PlayerBuilder: Facilita la creación dinámica de la lista de jugadores, permitiendo elegir entre humanos o IAs.
+- [PlayerBuilder ](/src/juego/app/PlayerBuilder.java): Facilita la creación dinámica de la lista de jugadores, permitiendo elegir entre humanos o IAs.
 
 ### Patrones de Diseño Incluidos
 #### Factory (DeckFactory): 
@@ -72,6 +72,8 @@ La creación de jugadores se gestiona mediante el patrón Builder (en una varian
 ## Pruebas y Validaciones
 [Pruebas Unitarias](PruebasUnitarias.png) 
 Se realizaron 6 pruebas principales, todas con un resultado exitoso (barra verde).
+[Pruebas](/test/juego/pruebas/CombinationUtilsTest.java)
+
 ## testIsSequenceSpanishOrde
 ### Enfoque: Caja Blanca.
 Ya que se analiza la ruta lógica interna que permite saltar del valor 7 al 10 (Sota). Debido a que en la baraja española de 40 cartas no existen el 8 ni el 9, por ende prueba asegura que el método getSpanishOrder traduzca correctamente los rangos para que una secuencia (ej: 7-Sota-Caballo) se reconozca como consecutiva.
