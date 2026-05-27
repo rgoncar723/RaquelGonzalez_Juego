@@ -72,7 +72,8 @@ La creación de jugadores se gestiona mediante el patrón Builder (en una varian
 ## Pruebas y Validaciones
 [Pruebas Unitarias](PruebasUnitarias.png) 
 Se realizaron 6 pruebas principales, todas con un resultado exitoso (barra verde).
-[Pruebas](/test/juego/pruebas/CombinationUtilsTest.java)
+
+[Ver Pruebas](/test/juego/pruebas/CombinationUtilsTest.java)
 
 ## testIsSequenceSpanishOrde
 ### Enfoque: Caja Blanca.
@@ -92,3 +93,6 @@ Se centra en la cobertura de condiciones del código. Específicamente verifica 
 ## testIsGroup
 ### Enfoque: Caja Negra.
 Se valida que un conjunto de cartas (mínimo 3) tengan el mismo valor numérico. Es una prueba funcional que asegura que por ejemplo, tres Reyes de diferentes palos sean reconocidos como un grupo válido.
+
+### UML 
+[UML](UMLPROYECTO.png) imagen del UML.
