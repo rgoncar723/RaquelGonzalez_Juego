@@ -34,10 +34,10 @@ Chinchon2026/
 ├── README.md
 ├── UMLPROYECTO.png
 ├── PruebasUnitarias.png
-│
-├── .classpath
-├── .project
-├── .settings/
+├── 1.png
+├── 2.png
+├── 3.png
+├── 4.png
 │
 ├── bin/
 │   └── juego/
@@ -147,3 +147,15 @@ Se valida que un conjunto de cartas (mínimo 3) tengan el mismo valor numérico.
 
 ### UML 
 [UML](UMLPROYECTO.png) imagen del UML.
+
+### JUGABILIDAD 
+[Captura de inicio](1.png)  
+En esta captura podemos apreciar la ejecución inicial del juego de consola, donde el sistema solicita al usuario los parámetros básicos de la partida: Número de jugadores, Límite de puntos (100), Número de barajas a utiliar y la configuración de cada jugador (nombre y tipo: humano o IA)
+Tras terminar con la configuración se da el mensaje de bienvenida y el inicio de la primera ronda. 
+Aqui esta presente la comunicación de la clase GameController en la fase de configruación, la interacción con el usuario mediante el ConsoleInput y la creación dinámica de jugadores mediante PLayerBuilder y el iniciaio del ciclo de rondas gestionado por Round.
+[Captura de rondas entre IAs](2.png) y [Captura de siguiente ronda](3.png)
+Se puede observar el turno del primer jugador, y las acciones de descartar una carta, junto con la visualización completa de la mano del jugador con emojis y el cierre realizado por otro jugador. Cuando se finaliza una ronda sale un resumen de esta mostrando por pantalla la puntuación obtenida, las cartas saltas de quienes no cerraron y el tipo de cierre. 
+Se implementa AiPLayer junto con la lógica de descarte y cierre gestionada por Hand y CombinationUtils. La representación visual de cartas mediante Rank y Suir y el cálculo de puntuaciones dentro de Round. 
+[Captura final](4.png)
+Aqui se presenta la ronda final, con la mano del jugador final, el resumen de la última ronda, y el marcador acumulado definitivo. Asi como la tabla de puntuaciones y la declaración del jugador. Aqui se aprecia finalmente el cierre completo del ciclo de juego, la consistencia del sistema de puntuación y la finalización del juego según las reglas oficiales.
+
